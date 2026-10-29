@@ -31,7 +31,7 @@ jobs:
       TEST_CHAT_ID: ${{ secrets.TEST_CHAT_ID }}
       LIVE_ENABLED: ${{ vars.LIVE_ENABLED }}
       ACTION_MODE: ${{ inputs.mode || 'scheduled' }}
-      TZ_NAME: Europe/Amsterdam
+      TZ_NAME: Europe/Moscow
       CHANNEL_ID: '@offfitness'
     steps:
       - uses: actions/checkout@v4
