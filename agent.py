@@ -93,7 +93,7 @@ def telegram_send(chat_id, post):
 
 
 def run():
-    now = dt.datetime.now(ZoneInfo(os.environ.get("TZ_NAME", "Europe/Amsterdam")))
+    now = dt.datetime.now(ZoneInfo(os.environ.get("TZ_NAME", "Europe/Moscow")))
     mode = os.environ.get("ACTION_MODE", "preview").lower()
     scheduled = mode == "scheduled"
     if scheduled and now.hour not in SLOTS:
