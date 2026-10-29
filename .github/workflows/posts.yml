@@ -1,0 +1,62 @@
+name: OFFFITNESS Posts
+
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'preview = generate only, test = send to TEST_CHAT_ID'
+        required: true
+        default: preview
+        type: choice
+        options:
+          - preview
+          - test
+
+permissions:
+  contents: write
+
+concurrency:
+  group: offfitness-publisher
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TEST_CHAT_ID: ${{ secrets.TEST_CHAT_ID }}
+      LIVE_ENABLED: ${{ vars.LIVE_ENABLED }}
+      ACTION_MODE: ${{ inputs.mode || 'scheduled' }}
+      TZ_NAME: Europe/Amsterdam
+      CHANNEL_ID: '@offfitness'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate and optionally send post
+        run: python agent.py
+      - name: Save preview
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: offfitness-preview
+          path: out/preview.txt
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Save published history
+        if: env.LIVE_ENABLED == 'true' && env.ACTION_MODE == 'scheduled'
+        run: |
+          if ! git diff --quiet -- data/history.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/history.json
+            git commit -m "Track OFFFITNESS post history"
+            git push
+          fi
