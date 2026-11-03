@@ -64,6 +64,10 @@ class Editorial(unittest.TestCase):
         self.assertNotIn("secret", json.dumps(report))
         self.assertEqual(calls, 0)
 
+    def test_safe_http_diagnostics(self):
+        _, report, _ = self.prepare([], safety=Mock(side_effect=RuntimeError("Remote API HTTP 429; response body withheld")))
+        self.assertEqual(report["remote_http_status"], 429)
+
     def test_review_outage_and_bad_edit_fail_closed(self):
         result, report, _ = self.prepare([ValueError("bad JSON")])
         self.assertIsNone(result)

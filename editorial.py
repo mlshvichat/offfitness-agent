@@ -138,7 +138,7 @@ JSON: {"post": "исправленный текст", "changes": ["что исп
     except Exception as exc:
         # Avoid leaking API response bodies, URLs or credentials into diagnostics.
         report["error"] = type(exc).__name__
-        http_error = re.fullmatch(r"Remote API HTTP (\\d{3}); response body withheld", str(exc))
+        http_error = re.fullmatch(r"Remote API HTTP ([0-9]{3}); response body withheld", str(exc))
         if http_error:
             report["remote_http_status"] = int(http_error.group(1))
         safety_error = re.fullmatch(r"Safety review rejected draft: ([A-Za-z0-9_-]{1,80})", str(exc))
