@@ -12,6 +12,7 @@ import time
 from unittest.mock import patch
 from zoneinfo import ZoneInfo
 from public_delivery import public_posts
+import curated_reserve
 
 ROOT = Path(__file__).resolve().parent
 START = dt.datetime(2026, 11, 3, 19, tzinfo=dt.timezone(dt.timedelta(hours=3)))
@@ -67,6 +68,8 @@ def due_slots(agent, now):
 
 
 def approval_valid(candidate):
+    if candidate.get("approval", {}).get("source") == "builtin-editorial-v1":
+        return curated_reserve.valid(candidate)
     verdict = candidate.get("approval", {})
     return (candidate.get("sha256") == digest(candidate.get("post", ""))
             and verdict.get("status") == "approved"
@@ -232,6 +235,10 @@ def run(channel):
                         failures += 1
                         if time.monotonic() >= deadline or all(state["cooldown"].get(m, 0) > time.time() for m in MODELS):
                             break
+            if not state["ready"] and not existing:
+                state["ready"].extend(curated_reserve.candidates(agent, channel, history, state["ready"], hour))
+                if state["ready"]:
+                    save(agent, state, state_path, history)
             if deliver(agent, state, history, state_path, key, hour):
                 delivered += 1
         except (ValueError, RuntimeError, KeyError, IndexError, OSError) as exc:
