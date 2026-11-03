@@ -12,6 +12,7 @@ jobs:
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       AUTO_TELEGRAM_BOT_TOKEN: ${{ secrets.AUTO_TELEGRAM_BOT_TOKEN }}
+      GEMINI_MODEL: gemini-3-flash-preview
       ACTION_MODE: preview
       LIVE_ENABLED: 'false'
       PREVIEW_HOUR: '9'
@@ -31,7 +32,7 @@ jobs:
               print("Configured bot username: @" + bot.get("username", "unknown"), flush=True)
               auto_agent.verify_live_destination()
           else:
-              print("AUTO_TELEGRAM_BOT_TOKEN is missing; activation blocked")
+              raise RuntimeError("AUTO_TELEGRAM_BOT_TOKEN is missing; activation blocked")
           PY
       - name: Generate and review without sending
         if: always()
