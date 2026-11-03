@@ -212,6 +212,15 @@ def run(channel):
     report_path = ROOT / "out" / (channel + "-last-review.json")
     state = read_state(state_path)
     history = agent.read_history()
+    if not state["ready"] and state["failures"]:
+        state["ready"].extend(curated_reserve.candidates(agent, channel, history, [], 19))
+        if state["ready"]:
+            save(agent, state, state_path, history)
+    other_channel = "auto" if channel == "fitness" else "fitness"
+    try:
+        other_pending = read_state(ROOT / "data" / (other_channel + "-queue.json")).get("remaining_due", 0) > 0
+    except (ValueError, RuntimeError, OSError):
+        other_pending = True
     deadline = time.monotonic() + 480
     failures = 0
     prepared = 0
@@ -245,7 +254,7 @@ def run(channel):
             note(state, "delivery", exc)
             failures += 1
     # Ahead-of-time reserve: build up to two approved posts per wake, six total.
-    while len(state["ready"]) < TARGET and prepared < 2 and time.monotonic() < deadline:
+    while not other_pending and len(state["ready"]) < TARGET and prepared < 2 and time.monotonic() < deadline:
         if all(state["cooldown"].get(m, 0) > time.time() for m in MODELS):
             break
         hour = min(agent.SLOTS, key=lambda h: sum(x.get("slot") == h for x in state["ready"]))
