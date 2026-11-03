@@ -25,6 +25,19 @@ def fake_agent():
     return a
 
 class Reliability(unittest.TestCase):
+    def test_full_wake_regenerates_rejected_draft_then_delivers_and_persists(self):
+        a=fake_agent();a.LIVE_APPROVED=True;a.read_history.return_value=[]
+        class Clock(dt.datetime):
+            @classmethod
+            def now(cls,tz=None):
+                return NOW
+        with patch.dict(r.os.environ,{"LIVE_ENABLED":"true","GITHUB_REF":"refs/heads/main"}), patch.object(r.importlib,"import_module",return_value=a), patch.object(r,"read_state",return_value={"ready":[],"failures":[],"cooldown":{}}), patch.object(r,"save") as save, patch.object(r,"public_posts",return_value=[]), patch.object(r,"ZoneInfo",return_value=NOW.tzinfo), patch.object(r.dt,"datetime",Clock), patch.object(r,"prepare",side_effect=[RuntimeError("quality"),candidate(),RuntimeError("unavailable"),RuntimeError("unavailable")]) as prepare:
+            r.run("fitness")
+        self.assertEqual(a.telegram_send.call_count,1)
+        self.assertEqual(prepare.call_count,4)
+        self.assertEqual(a.read_history.return_value[-1]["status"],"sent")
+        self.assertTrue(save.called)
+
     def test_backlog_survives_two_hour_window_and_next_day(self):
         a=fake_agent()
         slots=r.due_slots(a,NOW)

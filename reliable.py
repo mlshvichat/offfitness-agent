@@ -121,7 +121,8 @@ def prepare(agent, state, history, hour, report_path):
     return candidate
 
 
-def deliver(agent, state, history, state_path, key, hour, commit=save):
+def deliver(agent, state, history, state_path, key, hour, commit=None):
+    commit = commit or save
     existing = next((x for x in history if x.get("key") == key), None)
     if existing:
         # A timeout can mean Telegram delivered the post. Never blindly resend.
