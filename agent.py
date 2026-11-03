@@ -4,7 +4,6 @@ import datetime as dt
 import difflib
 import hashlib
 import subprocess
-import time
 import json
 import os
 import pathlib
@@ -14,6 +13,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from zoneinfo import ZoneInfo
+import editorial
 
 ROOT = pathlib.Path(__file__).resolve().parent
 HISTORY_FILE = ROOT / "data" / "history.json"
@@ -23,7 +23,7 @@ SLOTS = {
     14: ("training", "Безопасная техника конкретного упражнения или короткая тренировка с вариантами для новичков."),
     19: ("science", "Понятный разбор мифа о фитнесе, восстановлении или питании без медицинских назначений."),
 }
-MAX_HISTORY = 90
+MAX_HISTORY = 30
 # Remains disabled until explicit approval passes the action review.
 LIVE_APPROVED = False
 
@@ -57,10 +57,11 @@ def generate_post(slot, history):
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise RuntimeError("Missing GEMINI_API_KEY in GitHub Actions Secrets.")
-    topics = [x.get("topic", "") for x in history[-30:]]
+    topics = editorial.memory(history)
     prompt = f"""Ты редактор русского фитнес-канала OFFFITNESS. Создай ОДИН пост.
 Рубрика: {slot[1]}. Стиль: живой, интересный, прямой, практичный, без пустой мотивации.
-Объём текста: 600–1100 символов. Начни с краткого заголовка, затем 2–4 абзаца.
+Объём текста: 600–1100 символов. Выбери естественную форму под тему; не повторяй
+заголовки, начала, финалы и структуру последних постов. Не более двух эмодзи.
 Дай 1 конкретное действие или полезный вывод, избегай агрессивных призывов и навязчивых хештегов.
 Не выдумывай личные истории, отзывы, статистику, научные исследования или ссылки.
 Не советуй экстремальные диеты, боль игнорировать нельзя, без диагнозов и обещаний лечения.
@@ -227,10 +228,9 @@ def run():
     if mode not in {"preview", "test", "live", "scheduled"}:
         raise RuntimeError("Invalid ACTION_MODE")
     live = mode in {"live", "scheduled"}
-    # Explicit owner approval: one morning post on 2026-11-03, no recurring activation.
-    one_post_approved = (mode == "live" and now.date().isoformat() == "2026-11-03"
-                         and os.environ.get("PREVIEW_HOUR", "9") == "9")
-    if live and (not (LIVE_APPROVED or one_post_approved) or os.environ.get("LIVE_ENABLED") != "true"):
+    if mode != "preview" and os.environ.get("GITHUB_REF", "refs/heads/main") != "refs/heads/main":
+        raise RuntimeError("Delivery is allowed only from main; use preview on development branches")
+    if live and (not LIVE_APPROVED or os.environ.get("LIVE_ENABLED") != "true"):
         raise RuntimeError("Live publishing disabled")
     hour = select_slot(now, mode)
     slot = SLOTS[hour]
@@ -247,18 +247,10 @@ def run():
     if not os.environ.get("GEMINI_API_KEY"):
         raise RuntimeError("Missing GEMINI_API_KEY in Actions Secrets")
     chat_id = verify_live_destination() if live else verify_test_destination() if mode == "test" else None
-    recent = history[-MAX_HISTORY:]
-    for attempt in range(3):
-        try:
-            topic, post = generate_post(slot, recent)
-            validate(topic, post, recent)
-            review_safety(topic, post, recent)
-            break
-        except (ValueError, KeyError, IndexError, RuntimeError):
-            if attempt == 2:
-                raise
-            print("Draft generation or validation failed; retrying without sending")
-            time.sleep(5 * (attempt + 1))
+    recent = editorial.memory(history)
+    topic, post = editorial.prepare(
+        lambda: generate_post(slot, recent), recent, api_json, validate, review_safety,
+        ROOT / "out" / "editorial-report.json")
     PREVIEW_FILE.parent.mkdir(parents=True, exist_ok=True)
     PREVIEW_FILE.write_text(f"Slot: {slot[0]}\nTopic: {topic}\n\n{post}\n", "utf-8")
     print(f"Generated validated draft, length={len(post)}, slot={hour}:00 Moscow")
@@ -272,6 +264,7 @@ def run():
         "date": now.date().isoformat(), "status": "reserved",
         "run_id": os.environ.get("GITHUB_RUN_ID", ""),
         "reserved_at": now.isoformat(),
+        "style": editorial.signature(post),
     }
     history.append(record)
     persist_history(history)
@@ -293,3 +286,4 @@ if __name__ == "__main__":
         message = str(exc) if isinstance(exc, RuntimeError) else "Invalid response or configuration; details withheld"
         print(f"OFFFITNESS agent failed safely: {type(exc).__name__}: {message}", file=sys.stderr)
         sys.exit(1)
+

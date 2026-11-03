@@ -1,17 +1,21 @@
 name: OFFFITNESS Posts
 
 on:
+  # Disabled until successful testing and explicit owner approval.
+  # schedule:
+  #   - cron: '0 6 * * *'   # 09:00 Europe/Moscow
+  #   - cron: '0 11 * * *'  # 14:00 Europe/Moscow
+  #   - cron: '0 16 * * *'  # 19:00 Europe/Moscow
   workflow_dispatch:
     inputs:
       mode:
-        description: 'preview: generate; test: separate channel; live: approved morning post'
+        description: 'preview: generate and review; test: separate channel'
         required: true
         default: preview
         type: choice
         options:
           - preview
           - test
-          - live
 
 permissions:
   contents: write
@@ -28,7 +32,8 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TEST_CHAT_ID: ${{ secrets.TEST_CHAT_ID }}
-      LIVE_ENABLED: ${{ inputs.mode == 'live' && 'true' || 'false' }}
+      LIVE_ENABLED: 'false'
+      SCHEDULE_CRON: ${{ github.event.schedule }}
       PREVIEW_HOUR: '9'
       ACTION_MODE: ${{ inputs.mode || 'scheduled' }}
       TZ_NAME: Europe/Moscow
@@ -36,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.ref }}
           persist-credentials: true
       - uses: actions/setup-python@v5
         with:
@@ -53,3 +58,12 @@ jobs:
           path: out/preview.txt
           if-no-files-found: ignore
           retention-days: 7
+      - name: Save internal editorial report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: offfitness-editorial-report
+          path: out/editorial-report.json
+          if-no-files-found: ignore
+          retention-days: 7
+
