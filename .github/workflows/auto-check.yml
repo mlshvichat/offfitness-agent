@@ -26,11 +26,15 @@ jobs:
           python - <<'PY'
           import os, auto_agent
           if os.environ.get("AUTO_TELEGRAM_BOT_TOKEN"):
+              token = os.environ["AUTO_TELEGRAM_BOT_TOKEN"]
+              bot = auto_agent.api_json("https://api.telegram.org/bot" + token + "/getMe", {}).get("result", {})
+              print("Configured bot username: @" + bot.get("username", "unknown"), flush=True)
               auto_agent.verify_live_destination()
           else:
               print("AUTO_TELEGRAM_BOT_TOKEN is missing; activation blocked")
           PY
       - name: Generate and review without sending
+        if: always()
         run: python auto_agent.py
       - name: Internal review diagnostics
         if: always()
