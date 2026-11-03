@@ -40,3 +40,5 @@ jobs:
           name: model-preview-validation-${{ matrix.hour }}
           path: out/
           retention-days: 7
+
+# Test currently available newer Flash models.

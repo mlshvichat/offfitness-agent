@@ -4,7 +4,8 @@ req = urllib.request.Request(url, headers={"x-goog-api-key": os.environ["GEMINI_
 with urllib.request.urlopen(req, timeout=45) as response:
     models = json.load(response)["models"]
 available = {m["name"].removeprefix("models/") for m in models if "generateContent" in m.get("supportedGenerationMethods", [])}
-candidates = [m for m in ["gemini-2.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3-flash-preview", "gemini-2.5-flash"] if m in available]
+candidates = [m for m in ["gemini-3.8-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3-flash-preview"] if m in available]
+print("Available models:", sorted(available), flush=True)
 print("Available candidate models:", candidates, flush=True)
 for model in candidates:
     print("Testing model:", model, flush=True)
