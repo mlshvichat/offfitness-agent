@@ -105,6 +105,7 @@ def prepare(generate, history, api, validate, safety, report_path):
     try:
         topic, post = generate()
         original = post
+        report["draft"] = {"topic": topic, "post": post}
         # Doubtful medical content is rejected, never polished into apparent certainty.
         for attempt in range(MAX_EDITS + 1):
             report["stage"] = "validation"
