@@ -1,0 +1,68 @@
+name: AUTOMLSHVI Posts
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+    - cron: '0 11 * * *'
+    - cron: '0 16 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'preview: generate and review; test: separate channel'
+        required: true
+        default: preview
+        type: choice
+        options:
+          - preview
+          - test
+
+permissions:
+  contents: write
+
+concurrency:
+  group: offfitness-publisher
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      AUTO_TELEGRAM_BOT_TOKEN: ${{ secrets.AUTO_TELEGRAM_BOT_TOKEN }}
+      TEST_CHAT_ID: ${{ secrets.AUTO_TEST_CHAT_ID }}
+      LIVE_ENABLED: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
+      SCHEDULE_CRON: ${{ github.event.schedule }}
+      PREVIEW_HOUR: '9'
+      ACTION_MODE: ${{ inputs.mode || 'scheduled' }}
+      TZ_NAME: Europe/Moscow
+      CHANNEL_ID: '@automlshvi'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify delivery guards
+        run: python -m unittest discover -s tests_auto -v
+      - name: Generate and optionally send post
+        run: python auto_agent.py
+      - name: Save preview
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: automlshvi-preview
+          path: out/auto-preview.txt
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Save internal editorial report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: automlshvi-editorial-report
+          path: out/auto-editorial-report.json
+          if-no-files-found: ignore
+          retention-days: 7
+
