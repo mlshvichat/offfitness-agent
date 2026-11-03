@@ -39,6 +39,7 @@ jobs:
           run-id: '41641321169'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: approved
+          merge-multiple: true
       - name: Verify exact approval reserve and send once
         run: python auto_sample.py
       - name: Internal review diagnostics
