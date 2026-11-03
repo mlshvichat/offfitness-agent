@@ -1,0 +1,50 @@
+name: Reliable channel publishing
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  push:
+    branches: [main]
+    paths: [reliable.py, .github/workflows/publish-reliable.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: offfitness-publisher
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        channel: [fitness, auto]
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      AUTO_TELEGRAM_BOT_TOKEN: ${{ secrets.AUTO_TELEGRAM_BOT_TOKEN }}
+      LIVE_ENABLED: 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test delivery guards and reliability
+        run: |
+          python -m unittest discover -s tests -q
+          python -m unittest discover -s tests_auto -q
+      - name: Deliver backlog and replenish approved reserve
+        run: python reliable.py ${{ matrix.channel }}
+      - name: Save durable publication diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.channel }}-durable-status
+          path: |
+            data/${{ matrix.channel }}-queue.json
+            out/${{ matrix.channel }}-last-review.json
+          if-no-files-found: ignore
+          retention-days: 7

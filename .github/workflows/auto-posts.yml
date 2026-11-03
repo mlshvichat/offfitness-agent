@@ -1,11 +1,6 @@
 name: AUTOMLSHVI Posts
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'
-  push:
-    branches: [main]
-    paths: [reliable.py]
   workflow_dispatch:
     inputs:
       mode:
