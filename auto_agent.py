@@ -127,7 +127,7 @@ def verify_test_destination():
         raise RuntimeError("Missing TELEGRAM_BOT_TOKEN or TEST_CHAT_ID")
     base = "https://api.telegram.org/bot" + token + "/"
     bot = api_json(base + "getMe", {}).get("result", {})
-    if bot.get("username", "").casefold() != "mlshviauto":
+    if bot.get("username", "").casefold() != "mlshvibot":
         raise RuntimeError("Token belongs to a different bot")
     target = api_json(base + "getChat", {"chat_id": chat_id}).get("result", {})
     production = api_json(base + "getChat", {"chat_id": "@automlshvi"}).get("result", {})
@@ -180,7 +180,7 @@ def verify_live_destination():
         raise RuntimeError("Missing TELEGRAM_BOT_TOKEN")
     base = "https://api.telegram.org/bot" + token + "/"
     bot = api_json(base + "getMe", {}).get("result", {})
-    if bot.get("username", "").casefold() != "mlshviauto":
+    if bot.get("username", "").casefold() != "mlshvibot":
         raise RuntimeError("Token belongs to a different bot")
     target = api_json(base + "getChat", {"chat_id": "@automlshvi"}).get("result", {})
     if target.get("type") != "channel" or target.get("username", "").casefold() != "automlshvi":

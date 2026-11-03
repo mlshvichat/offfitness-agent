@@ -6,7 +6,7 @@ import auto_agent as agent
 class Guards(unittest.TestCase):
     def responses(self, target_id=-200, target_type='channel', username='test', allowed=True):
         return [
-            {'result': {'id': 1, 'username': 'mlshviauto'}},
+            {'result': {'id': 1, 'username': 'mlshvibot'}},
             {'result': {'id': target_id, 'type': target_type, 'username': username}},
             {'result': {'id': -100, 'type': 'channel', 'username': 'automlshvi'}},
             {'result': {'status': 'administrator', 'can_post_messages': allowed}},

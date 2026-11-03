@@ -45,3 +45,5 @@ jobs:
           name: automlshvi-validation
           path: out/auto-*
           retention-days: 7
+
+# Verify confirmed username @mlshvibot.
