@@ -1,8 +1,15 @@
 {
   "version": 1,
   "ready": [],
-  "failures": [],
+  "failures": [
+    {
+      "at": "2026-11-03T17:48:37.226025+00:00",
+      "stage": "reserve",
+      "error": "RuntimeError"
+    }
+  ],
   "cooldown": {
-    "gemini-3.5-flash": 1793728376.954761
+    "gemini-3.5-flash": 1793728376.954761,
+    "gemini-3-flash-preview": 1793731717.2253053
   }
 }
