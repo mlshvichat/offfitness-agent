@@ -1,0 +1,31 @@
+name: Live model preview validation
+on:
+  push:
+    branches: [codex/editorial-review-30-posts]
+    paths: [.github/workflows/model-preview.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      ACTION_MODE: preview
+      LIVE_ENABLED: 'false'
+      PREVIEW_HOUR: '19'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -q
+      - name: Real model generation and mandatory review without Telegram
+        run: python agent.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: model-preview-validation
+          path: out/
+          retention-days: 7
