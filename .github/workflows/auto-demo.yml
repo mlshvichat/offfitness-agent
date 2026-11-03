@@ -1,0 +1,41 @@
+name: AUTOMLSHVI one requested sample
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/auto-demo.yml]
+permissions:
+  contents: write
+concurrency:
+  group: offfitness-publisher
+  cancel-in-progress: false
+jobs:
+  send-once:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      AUTO_TELEGRAM_BOT_TOKEN: ${{ secrets.AUTO_TELEGRAM_BOT_TOKEN }}
+      ACTION_MODE: live
+      LIVE_ENABLED: 'true'
+      PREVIEW_HOUR: '9'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check explicit one-day sample authorization
+        run: |
+          python - <<'PY'
+          import datetime
+          from zoneinfo import ZoneInfo
+          assert datetime.datetime.now(ZoneInfo("Europe/Moscow")).date().isoformat() == "2026-11-03"
+          PY
+      - run: python -m unittest discover -s tests_auto -q
+      - name: Generate review reserve and send requested sample once
+        run: python auto_agent.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: automlshvi-requested-sample
+          path: out/auto-*
+          retention-days: 7
