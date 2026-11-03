@@ -5,6 +5,7 @@ on:
     paths: [.github/workflows/auto-demo.yml]
 permissions:
   contents: write
+  actions: read
 concurrency:
   group: offfitness-publisher
   cancel-in-progress: false
@@ -31,11 +32,18 @@ jobs:
           assert datetime.datetime.now(ZoneInfo("Europe/Moscow")).date().isoformat() == "2026-11-03"
           PY
       - run: python -m unittest discover -s tests_auto -q
-      - name: Generate review reserve and send requested sample once
-        run: python auto_agent.py
+      - name: Download previously approved immutable draft
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '13232702607'
+          run-id: '41641321169'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: approved
+      - name: Verify exact approval reserve and send once
+        run: python auto_sample.py
       - name: Internal review diagnostics
         if: always()
-        run: cat out/auto-editorial-report.json
+        run: cat approved/auto-editorial-report.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
