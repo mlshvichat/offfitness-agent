@@ -150,7 +150,9 @@ CONTENT: """ + json.dumps({"topic": topic, "post": post, "recent_topics": [x.get
     parts = response.get("candidates", [{}])[0].get("content", {}).get("parts", [])
     verdict = json.loads("".join(p.get("text", "") for p in parts))
     if verdict.get("safe") is not True:
-        raise RuntimeError("Safety review rejected draft; no message sent")
+        code = verdict.get("reason_code", "unspecified")
+        code = code if isinstance(code, str) and re.fullmatch(r"[A-Za-z0-9_-]{1,80}", code) else "unspecified"
+        raise RuntimeError("Safety review rejected draft: " + code)
     print("Safety review passed")
 
 

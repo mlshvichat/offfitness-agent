@@ -141,6 +141,9 @@ JSON: {"post": "исправленный текст", "changes": ["что исп
         http_error = re.fullmatch(r"Remote API HTTP (\\d{3}); response body withheld", str(exc))
         if http_error:
             report["remote_http_status"] = int(http_error.group(1))
+        safety_error = re.fullmatch(r"Safety review rejected draft: ([A-Za-z0-9_-]{1,80})", str(exc))
+        if safety_error:
+            report["safety_reason"] = safety_error.group(1)
         raise RuntimeError("Post rejected or review unavailable; publication skipped. See internal editorial report.") from None
     finally:
         report_path.parent.mkdir(parents=True, exist_ok=True)

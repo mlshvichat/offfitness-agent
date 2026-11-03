@@ -10,11 +10,16 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        hour: [9, 14, 19]
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       ACTION_MODE: preview
       LIVE_ENABLED: 'false'
-      PREVIEW_HOUR: '19'
+      PREVIEW_HOUR: ${{ matrix.hour }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,9 +31,11 @@ jobs:
       - name: Internal review diagnostics
         if: always()
         run: cat out/editorial-report.json
+      - name: Inspect approved preview
+        run: cat out/preview.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: model-preview-validation
+          name: model-preview-validation-${{ matrix.hour }}
           path: out/
           retention-days: 7
