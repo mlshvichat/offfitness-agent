@@ -15,7 +15,7 @@ from public_delivery import public_posts
 
 ROOT = Path(__file__).resolve().parent
 START = dt.datetime(2026, 11, 3, 19, tzinfo=dt.timezone(dt.timedelta(hours=3)))
-MODELS = ("gemini-3.5-flash", "gemini-3-flash-preview")
+MODELS = ("gemini-3.5-flash", "gemini-3-flash-preview", "gemini-3.8-flash", "gemini-3.7-flash")
 TARGET = 6
 
 
