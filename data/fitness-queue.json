@@ -6,11 +6,18 @@
       "at": "2026-11-03T17:48:37.226025+00:00",
       "stage": "reserve",
       "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-03T17:52:50.815143+00:00",
+      "stage": "reserve",
+      "error": "RuntimeError"
     }
   ],
   "cooldown": {
     "gemini-3.5-flash": 1793728376.954761,
-    "gemini-3-flash-preview": 1793731717.2253053
+    "gemini-3-flash-preview": 1793731717.2253053,
+    "gemini-3.8-flash": 1793728637.9797826,
+    "gemini-3.7-flash": 1793728670.8145037
   },
   "last_wake": "2026-11-03T20:49:28.188982+03:00",
   "remaining_due": 0
