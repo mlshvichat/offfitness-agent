@@ -87,7 +87,7 @@ def generate_post(slot, history):
 Верни ТОЛЬКО корректный JSON-объект с полями "topic" (короткая конкретная тема)
 и "post" (готовый текст на русском). Никаких Markdown-ограждений.
 """
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    model = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
     url = "https://generativelanguage.googleapis.com/v1beta/models/" + urllib.parse.quote(model, safe="-_.") + ":generateContent"
     response = api_json(url, {
         "contents": [{"parts": [{"text": prompt}]}],
@@ -158,7 +158,7 @@ Exercise instructions must offer an easier option and say to stop with pain.
 Reject doubtful factual claims and individualized advice for pregnancy, children or illness.
 Reject topics that substantially repeat a recent topic, even if rephrased.
 CONTENT: """ + json.dumps({"topic": topic, "post": post, "recent_topics": [x.get("topic", "") for x in (history or [])[-45:]]}, ensure_ascii=False)
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    model = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
     url = "https://generativelanguage.googleapis.com/v1beta/models/" + urllib.parse.quote(model, safe="-_.") + ":generateContent"
     response = api_json(url, {
         "contents": [{"parts": [{"text": prompt}]}],
