@@ -1,7 +1,5 @@
 name: AUTOMLSHVI validation
 on:
-  push:
-    branches: [codex/automlshvi-agent]
   workflow_dispatch:
 permissions:
   contents: read

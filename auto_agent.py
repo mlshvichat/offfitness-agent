@@ -27,7 +27,7 @@ SLOTS = {
 }
 MAX_HISTORY = 30
 # Owner explicitly approved recurring publication on 2026-11-03.
-LIVE_APPROVED = False
+LIVE_APPROVED = True
 
 
 def api_json(url, payload, headers=None):

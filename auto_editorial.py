@@ -53,7 +53,7 @@ def local_findings(post, history):
 
 
 def ask(api, instruction, data):
-    model = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
+    model = os.environ.get("GEMINI_MODEL", "gemini-3-flash-preview")
     url = "https://generativelanguage.googleapis.com/v1beta/models/" + urllib.parse.quote(model, safe="-_.") + ":generateContent"
     response = api(url, {
         "systemInstruction": {"parts": [{"text": instruction + """

@@ -1,7 +1,10 @@
 name: AUTOMLSHVI Posts
 
 on:
-  # Schedule is activated after preview and destination permission verification.
+  schedule:
+    - cron: '0 6 * * *'
+    - cron: '0 11 * * *'
+    - cron: '0 16 * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -28,7 +31,7 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       AUTO_TELEGRAM_BOT_TOKEN: ${{ secrets.AUTO_TELEGRAM_BOT_TOKEN }}
       TEST_CHAT_ID: ${{ secrets.AUTO_TEST_CHAT_ID }}
-      LIVE_ENABLED: 'false'
+      LIVE_ENABLED: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
       SCHEDULE_CRON: ${{ github.event.schedule }}
       PREVIEW_HOUR: '9'
       ACTION_MODE: ${{ inputs.mode || 'scheduled' }}
