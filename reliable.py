@@ -12,6 +12,7 @@ import time
 from unittest.mock import patch
 from zoneinfo import ZoneInfo
 from public_delivery import public_posts
+import curated_reserve
 
 ROOT = Path(__file__).resolve().parent
 START = dt.datetime(2026, 11, 3, 19, tzinfo=dt.timezone(dt.timedelta(hours=3)))
@@ -67,6 +68,8 @@ def due_slots(agent, now):
 
 
 def approval_valid(candidate):
+    if candidate.get("approval", {}).get("source") == "builtin-editorial-v1":
+        return curated_reserve.valid(candidate)
     verdict = candidate.get("approval", {})
     return (candidate.get("sha256") == digest(candidate.get("post", ""))
             and verdict.get("status") == "approved"
@@ -209,6 +212,15 @@ def run(channel):
     report_path = ROOT / "out" / (channel + "-last-review.json")
     state = read_state(state_path)
     history = agent.read_history()
+    if not state["ready"] and state["failures"]:
+        state["ready"].extend(curated_reserve.candidates(agent, channel, history, [], 19))
+        if state["ready"]:
+            save(agent, state, state_path, history)
+    other_channel = "auto" if channel == "fitness" else "fitness"
+    try:
+        other_pending = read_state(ROOT / "data" / (other_channel + "-queue.json")).get("remaining_due", 0) > 0
+    except (ValueError, RuntimeError, OSError):
+        other_pending = True
     deadline = time.monotonic() + 480
     failures = 0
     prepared = 0
@@ -232,13 +244,17 @@ def run(channel):
                         failures += 1
                         if time.monotonic() >= deadline or all(state["cooldown"].get(m, 0) > time.time() for m in MODELS):
                             break
+            if not state["ready"] and not existing:
+                state["ready"].extend(curated_reserve.candidates(agent, channel, history, state["ready"], hour))
+                if state["ready"]:
+                    save(agent, state, state_path, history)
             if deliver(agent, state, history, state_path, key, hour):
                 delivered += 1
         except (ValueError, RuntimeError, KeyError, IndexError, OSError) as exc:
             note(state, "delivery", exc)
             failures += 1
     # Ahead-of-time reserve: build up to two approved posts per wake, six total.
-    while len(state["ready"]) < TARGET and prepared < 2 and time.monotonic() < deadline:
+    while not other_pending and len(state["ready"]) < TARGET and prepared < 2 and time.monotonic() < deadline:
         if all(state["cooldown"].get(m, 0) > time.time() for m in MODELS):
             break
         hour = min(agent.SLOTS, key=lambda h: sum(x.get("slot") == h for x in state["ready"]))
