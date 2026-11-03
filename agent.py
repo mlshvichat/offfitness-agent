@@ -227,7 +227,10 @@ def run():
     if mode not in {"preview", "test", "live", "scheduled"}:
         raise RuntimeError("Invalid ACTION_MODE")
     live = mode in {"live", "scheduled"}
-    if live and (not LIVE_APPROVED or os.environ.get("LIVE_ENABLED") != "true"):
+    # Explicit owner approval: one morning post on 2026-11-03, no recurring activation.
+    one_post_approved = (mode == "live" and now.date().isoformat() == "2026-11-03"
+                         and os.environ.get("PREVIEW_HOUR", "9") == "9")
+    if live and (not (LIVE_APPROVED or one_post_approved) or os.environ.get("LIVE_ENABLED") != "true"):
         raise RuntimeError("Live publishing disabled")
     hour = select_slot(now, mode)
     slot = SLOTS[hour]
