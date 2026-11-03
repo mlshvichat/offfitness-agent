@@ -1,18 +1,17 @@
 name: OFFFITNESS Posts
 
 on:
-  schedule:
-    - cron: '7 * * * *'
   workflow_dispatch:
     inputs:
       mode:
-        description: 'preview = generate only, test = send to TEST_CHAT_ID'
+        description: 'preview: generate; test: separate channel; live: approved morning post'
         required: true
         default: preview
         type: choice
         options:
           - preview
           - test
+          - live
 
 permissions:
   contents: write
@@ -29,17 +28,21 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TEST_CHAT_ID: ${{ secrets.TEST_CHAT_ID }}
-      LIVE_ENABLED: ${{ vars.LIVE_ENABLED }}
+      LIVE_ENABLED: ${{ inputs.mode == 'live' && 'true' || 'false' }}
+      PREVIEW_HOUR: '9'
       ACTION_MODE: ${{ inputs.mode || 'scheduled' }}
       TZ_NAME: Europe/Moscow
       CHANNEL_ID: '@offfitness'
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main
           persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Verify delivery guards
+        run: python -m unittest discover -s tests -v
       - name: Generate and optionally send post
         run: python agent.py
       - name: Save preview
@@ -50,13 +53,3 @@ jobs:
           path: out/preview.txt
           if-no-files-found: ignore
           retention-days: 7
-      - name: Save published history
-        if: env.LIVE_ENABLED == 'true' && env.ACTION_MODE == 'scheduled'
-        run: |
-          if ! git diff --quiet -- data/history.json; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/history.json
-            git commit -m "Track OFFFITNESS post history"
-            git push
-          fi
