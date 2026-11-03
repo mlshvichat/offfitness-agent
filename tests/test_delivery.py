@@ -20,12 +20,16 @@ class Delivery(unittest.TestCase):
         stack=contextlib.ExitStack()
         stack.enter_context(patch.object(agent,'LIVE_APPROVED',True))
         folder=stack.enter_context(tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent))
-        stack.enter_context(patch.dict(os.environ, {'ACTION_MODE':'live','LIVE_ENABLED':'true','GEMINI_API_KEY':'fake','PREVIEW_HOUR':'9'}))
+        stack.enter_context(patch.dict(os.environ, {'ACTION_MODE':'live','LIVE_ENABLED':'true','GEMINI_API_KEY':'fake','PREVIEW_HOUR':'9','GITHUB_REF':'refs/heads/main'}))
         stack.enter_context(patch.object(agent,'ZoneInfo',return_value=dt.timezone(dt.timedelta(hours=3))))
         stack.enter_context(patch.object(agent,'read_history',return_value=history))
         stack.enter_context(patch.object(agent,'verify_live_destination',return_value='-100'))
         stack.enter_context(patch.object(agent,'generate_post',return_value=('Unique topic','Text ' * 150)))
         stack.enter_context(patch.object(agent,'review_safety'))
+        stack.enter_context(patch.object(agent.editorial,'review',return_value={
+            'approved':True,'medical_concern':False,'duplicate_topic':False,
+            'meaning_preserved':True,'issues':[]}))
+        stack.enter_context(patch.object(agent,'ROOT',Path(folder)))
         stack.enter_context(patch.object(agent,'PREVIEW_FILE',Path(folder)/'preview.txt'))
         stack.enter_context(patch.object(agent,'persist_history',saver))
         stack.enter_context(patch.object(agent,'telegram_send',sender))
@@ -71,3 +75,4 @@ class Delivery(unittest.TestCase):
             agent.validate('Different theme', 'Text ' * 150,[{'topic':'Old theme','post':'Text ' * 150}])
 
 if __name__=='__main__': unittest.main()
+
