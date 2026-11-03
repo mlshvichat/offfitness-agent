@@ -96,7 +96,7 @@ class Editorial(unittest.TestCase):
         self.assertTrue(verdict["issues"])
 
     def test_no_live_date_exception(self):
-        with patch.dict(os.environ, {"ACTION_MODE": "live", "LIVE_ENABLED": "true", "GITHUB_REF": "refs/heads/main"}), patch.object(agent, "ZoneInfo", return_value=dt.timezone.utc), patch.object(agent, "verify_live_destination") as target:
+        with patch.object(agent, "LIVE_APPROVED", False), patch.dict(os.environ, {"ACTION_MODE": "live", "LIVE_ENABLED": "true", "GITHUB_REF": "refs/heads/main"}), patch.object(agent, "ZoneInfo", return_value=dt.timezone.utc), patch.object(agent, "verify_live_destination") as target:
             with self.assertRaisesRegex(RuntimeError, "disabled"):
                 agent.run()
             target.assert_not_called()

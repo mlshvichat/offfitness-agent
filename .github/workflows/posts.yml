@@ -1,11 +1,10 @@
 name: OFFFITNESS Posts
 
 on:
-  # Disabled until successful testing and explicit owner approval.
-  # schedule:
-  #   - cron: '0 6 * * *'   # 09:00 Europe/Moscow
-  #   - cron: '0 11 * * *'  # 14:00 Europe/Moscow
-  #   - cron: '0 16 * * *'  # 19:00 Europe/Moscow
+  schedule:
+    - cron: '0 6 * * *'   # 09:00 Europe/Moscow
+    - cron: '0 11 * * *'  # 14:00 Europe/Moscow
+    - cron: '0 16 * * *'  # 19:00 Europe/Moscow
   workflow_dispatch:
     inputs:
       mode:
@@ -32,7 +31,7 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TEST_CHAT_ID: ${{ secrets.TEST_CHAT_ID }}
-      LIVE_ENABLED: 'false'
+      LIVE_ENABLED: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
       SCHEDULE_CRON: ${{ github.event.schedule }}
       PREVIEW_HOUR: '9'
       ACTION_MODE: ${{ inputs.mode || 'scheduled' }}

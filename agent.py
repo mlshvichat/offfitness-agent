@@ -24,8 +24,8 @@ SLOTS = {
     19: ("science", "Понятный разбор мифа о фитнесе, восстановлении или питании без медицинских назначений."),
 }
 MAX_HISTORY = 30
-# Remains disabled until explicit approval passes the action review.
-LIVE_APPROVED = False
+# Owner explicitly approved recurring publication on 2026-11-03.
+LIVE_APPROVED = True
 
 
 def api_json(url, payload, headers=None):
