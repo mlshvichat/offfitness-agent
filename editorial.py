@@ -101,7 +101,7 @@ JSON: {"approved": bool, "medical_concern": bool, "duplicate_topic": bool,
 
 
 def prepare(generate, history, api, validate, safety, report_path):
-    report = {"source": SOURCE, "status": "blocked", "reviews": [], "edits": []}
+    report = {"source": SOURCE, "status": "blocked", "stage": "generation", "reviews": [], "edits": []}
     try:
         topic, post = generate()
         original = post
@@ -138,6 +138,9 @@ JSON: {"post": "исправленный текст", "changes": ["что исп
     except Exception as exc:
         # Avoid leaking API response bodies, URLs or credentials into diagnostics.
         report["error"] = type(exc).__name__
+        http_error = re.fullmatch(r"Remote API HTTP (\\d{3}); response body withheld", str(exc))
+        if http_error:
+            report["remote_http_status"] = int(http_error.group(1))
         raise RuntimeError("Post rejected or review unavailable; publication skipped. See internal editorial report.") from None
     finally:
         report_path.parent.mkdir(parents=True, exist_ok=True)
