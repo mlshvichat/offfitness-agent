@@ -64,6 +64,19 @@ class Editorial(unittest.TestCase):
         self.assertNotIn("secret", json.dumps(report))
         self.assertEqual(calls, 0)
 
+    def test_gemini_transient_error_retried(self):
+        error = RuntimeError("Remote API HTTP 503; response body withheld")
+        with patch.object(agent, "_api_json_once", side_effect=[error, {"ok": True}]) as call, patch.object(agent.time, "sleep"):
+            self.assertEqual(agent.api_json("https://generativelanguage.googleapis.com/test", {}), {"ok": True})
+            self.assertEqual(call.call_count, 2)
+
+    def test_gemini_retries_bounded_and_telegram_never_retried(self):
+        for url, count in [("https://generativelanguage.googleapis.com/test", 3), ("https://api.telegram.org/botfake/sendMessage", 1)]:
+            with patch.object(agent, "_api_json_once", side_effect=RuntimeError("Remote API HTTP 503; response body withheld")) as call, patch.object(agent.time, "sleep"):
+                with self.assertRaises(RuntimeError):
+                    agent.api_json(url, {})
+                self.assertEqual(call.call_count, count)
+
     def test_safe_http_diagnostics(self):
         _, report, _ = self.prepare([], safety=Mock(side_effect=RuntimeError("Remote API HTTP 429; response body withheld")))
         self.assertEqual(report["remote_http_status"], 429)

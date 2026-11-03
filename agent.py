@@ -4,6 +4,7 @@ import datetime as dt
 import difflib
 import hashlib
 import subprocess
+import time
 import json
 import os
 import pathlib
@@ -29,6 +30,22 @@ LIVE_APPROVED = True
 
 
 def api_json(url, payload, headers=None):
+    # Only generation/review requests can retry; never Telegram delivery.
+    for attempt in range(3):
+        try:
+            return _api_json_once(url, payload, headers)
+        except RuntimeError as exc:
+            retryable = str(exc) in {
+                "Remote API HTTP 429; response body withheld",
+                "Remote API HTTP 503; response body withheld",
+            }
+            if not url.startswith("https://generativelanguage.googleapis.com/") or not retryable or attempt == 2:
+                raise
+            print("Gemini temporarily unavailable; retrying without sending")
+            time.sleep(15 * (attempt + 1))
+
+
+def _api_json_once(url, payload, headers=None):
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     request = urllib.request.Request(url, data=body, headers={
         "Content-Type": "application/json", **(headers or {})

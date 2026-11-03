@@ -1,4 +1,5 @@
 name: Live model preview validation
+# Includes bounded retries for temporary Gemini outages.
 on:
   push:
     branches: [codex/editorial-review-30-posts]
