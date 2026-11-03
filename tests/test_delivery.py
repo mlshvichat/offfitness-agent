@@ -18,6 +18,7 @@ class Delivery(unittest.TestCase):
 
     def context(self, history, saver, sender):
         stack=contextlib.ExitStack()
+        stack.enter_context(patch.object(agent,'LIVE_APPROVED',True))
         folder=stack.enter_context(tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent))
         stack.enter_context(patch.dict(os.environ, {'ACTION_MODE':'live','LIVE_ENABLED':'true','GEMINI_API_KEY':'fake','PREVIEW_HOUR':'9'}))
         stack.enter_context(patch.object(agent,'ZoneInfo',return_value=dt.timezone(dt.timedelta(hours=3))))
