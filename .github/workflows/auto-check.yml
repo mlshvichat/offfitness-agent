@@ -1,0 +1,43 @@
+name: AUTOMLSHVI validation
+on:
+  push:
+    branches: [codex/automlshvi-agent]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      AUTO_TELEGRAM_BOT_TOKEN: ${{ secrets.AUTO_TELEGRAM_BOT_TOKEN }}
+      ACTION_MODE: preview
+      LIVE_ENABLED: 'false'
+      PREVIEW_HOUR: '9'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests_auto -q
+      - name: Verify bot and channel if token is configured
+        run: |
+          python - <<'PY'
+          import os, auto_agent
+          if os.environ.get("AUTO_TELEGRAM_BOT_TOKEN"):
+              auto_agent.verify_live_destination()
+          else:
+              print("AUTO_TELEGRAM_BOT_TOKEN is missing; activation blocked")
+          PY
+      - name: Generate and review without sending
+        run: python auto_agent.py
+      - name: Internal review diagnostics
+        if: always()
+        run: cat out/auto-editorial-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: automlshvi-validation
+          path: out/auto-*
+          retention-days: 7
