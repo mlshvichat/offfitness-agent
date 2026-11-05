@@ -80,11 +80,6 @@
   ],
   "failures": [
     {
-      "at": "2026-11-03T23:48:56.356146+00:00",
-      "stage": "reserve",
-      "error": "RuntimeError"
-    },
-    {
       "at": "2026-11-04T00:44:15.935923+00:00",
       "stage": "reserve",
       "error": "RuntimeError"
@@ -226,6 +221,11 @@
     },
     {
       "at": "2026-11-05T10:56:09.679091+00:00",
+      "stage": "reserve",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-05T10:56:27.205376+00:00",
       "stage": "reserve",
       "error": "RuntimeError"
     }
