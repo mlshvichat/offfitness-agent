@@ -3,26 +3,6 @@
   "ready": [],
   "failures": [
     {
-      "at": "2026-11-08T22:46:57.251187+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-08T22:46:57.252495+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-08T22:46:57.253789+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-08T22:46:57.255042+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
       "at": "2026-11-08T22:46:57.256298+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
@@ -151,14 +131,34 @@
       "at": "2026-11-09T04:31:43.051715+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-09T05:42:23.963396+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-09T05:42:23.965264+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-09T05:42:23.967108+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-09T05:42:23.968905+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
     }
   ],
   "cooldown": {
-    "gemini-3.5-flash": 1794202271.3931541,
-    "gemini-3-flash-preview": 1794202297.6824136,
-    "gemini-3.8-flash": 1794199002.897631,
-    "gemini-3.7-flash": 1794202303.0455542
+    "gemini-3.5-flash": 1794203182.4705076,
+    "gemini-3-flash-preview": 1794206495.8774781,
+    "gemini-3.8-flash": 1794203240.9551072,
+    "gemini-3.7-flash": 1794203243.962693
   },
-  "last_wake": "2026-11-09T07:30:39.822148+03:00",
+  "last_wake": "2026-11-09T08:41:21.273201+03:00",
   "remaining_due": 4
 }
