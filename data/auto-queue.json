@@ -3,51 +3,6 @@
   "ready": [],
   "failures": [
     {
-      "at": "2026-11-10T15:41:28.160215+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-10T15:41:28.162618+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-10T15:41:28.165037+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-10T15:41:28.167344+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-10T16:30:56.039571+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-10T16:31:08.373349+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-10T16:31:08.376494+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-10T16:31:08.379646+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-10T16:31:08.382240+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
       "at": "2026-11-10T16:31:08.384718+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
@@ -151,14 +106,59 @@
       "at": "2026-11-10T18:16:56.970007+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-10T19:27:35.073608+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-10T19:27:45.456388+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-10T19:27:45.458964+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-10T19:27:45.461269+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-10T19:27:45.463596+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-10T19:27:45.466072+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-10T19:27:45.468362+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-10T19:27:45.470667+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-10T19:27:45.472973+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
     }
   ],
   "cooldown": {
-    "gemini-3.5-flash": 1794334916.955634,
-    "gemini-3-flash-preview": 1794335430.2262547,
-    "gemini-3.8-flash": 1794335430.363425,
-    "gemini-3.7-flash": 1794335430.5360804
+    "gemini-3.5-flash": 1794339140.3347857,
+    "gemini-3-flash-preview": 1794342464.1452825,
+    "gemini-3.8-flash": 1794339164.86821,
+    "gemini-3.7-flash": 1794342465.455866
   },
-  "last_wake": "2026-11-10T21:16:38.183683+03:00",
+  "last_wake": "2026-11-10T22:27:15.166723+03:00",
   "remaining_due": 8
 }
