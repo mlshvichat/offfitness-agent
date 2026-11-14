@@ -3,36 +3,6 @@
   "ready": [],
   "failures": [
     {
-      "at": "2026-11-14T15:36:44.524284+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-14T15:36:44.526491+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-14T15:36:44.528785+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-14T15:36:44.531086+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-14T15:36:44.533292+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-14T16:22:27.555180+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
       "at": "2026-11-14T16:22:27.557210+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
@@ -151,14 +121,44 @@
       "at": "2026-11-14T18:33:56.741092+00:00",
       "stage": "delivery",
       "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-14T18:34:34.105935+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-14T18:34:34.108321+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-14T18:34:34.110623+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-14T18:34:34.112803+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-14T18:34:34.115001+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-14T18:34:34.117247+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
     }
   ],
   "cooldown": {
-    "gemini-3.5-flash": 1794679718.2040555,
+    "gemini-3.5-flash": 1794684860.001573,
     "gemini-3-flash-preview": 1794681999.4469929,
-    "gemini-3.8-flash": 1794678744.488784,
-    "gemini-3.7-flash": 1794678750.9798102
+    "gemini-3.8-flash": 1794681564.2541192,
+    "gemini-3.7-flash": 1794681574.1051376
   },
-  "last_wake": "2026-11-14T20:46:07.597976+03:00",
-  "remaining_due": 8
+  "last_wake": "2026-11-14T21:32:08.391388+03:00",
+  "remaining_due": 7
 }
