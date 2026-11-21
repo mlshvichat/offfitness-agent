@@ -3,31 +3,6 @@
   "ready": [],
   "failures": [
     {
-      "at": "2026-11-21T03:34:25.533614+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-21T04:39:29.753681+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-21T04:40:59.958445+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-21T04:40:59.969346+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-21T04:40:59.980085+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
       "at": "2026-11-21T05:40:20.662700+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
@@ -151,14 +126,39 @@
       "at": "2026-11-21T10:32:12.639041+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-21T11:21:02.948742+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-21T11:21:02.962758+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-21T11:21:02.976760+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-21T11:21:02.990641+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-21T11:21:03.004831+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
     }
   ],
   "cooldown": {
-    "gemini-3.5-flash": 1795257379.641279,
-    "gemini-3-flash-preview": 1795257245.3727543,
-    "gemini-3.8-flash": 1795257387.5627193,
-    "gemini-3.7-flash": 1795257432.6045303
+    "gemini-3.5-flash": 1795260319.4218934,
+    "gemini-3-flash-preview": 1795263660.0374432,
+    "gemini-3.8-flash": 1795260361.674605,
+    "gemini-3.7-flash": 1795260362.9479063
   },
-  "last_wake": "2026-11-21T13:29:57.343415+03:00",
-  "remaining_due": 4
+  "last_wake": "2026-11-21T14:20:19.055950+03:00",
+  "remaining_due": 5
 }
