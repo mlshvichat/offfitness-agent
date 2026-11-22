@@ -3,36 +3,6 @@
   "ready": [],
   "failures": [
     {
-      "at": "2026-11-22T11:19:24.558960+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T11:19:24.573217+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T11:19:24.587193+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T11:19:24.600934+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T11:19:24.614803+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T12:11:55.376348+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
       "at": "2026-11-22T12:11:55.390454+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
@@ -151,6 +121,36 @@
       "at": "2026-11-22T15:42:07.611267+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-22T16:27:51.745700+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-22T16:27:51.754962+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-22T16:27:51.764035+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-22T16:27:51.773142+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-22T16:27:51.782281+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-22T16:27:51.791394+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
     }
   ],
   "cooldown": {
@@ -159,6 +159,6 @@
     "gemini-3.8-flash": 1795365727.4281774,
     "gemini-3.7-flash": 1795365727.5737886
   },
-  "last_wake": "2026-11-22T18:41:50.940604+03:00",
-  "remaining_due": 5
+  "last_wake": "2026-11-22T19:27:51.734669+03:00",
+  "remaining_due": 6
 }
