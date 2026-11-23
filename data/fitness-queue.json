@@ -3,36 +3,6 @@
   "ready": [],
   "failures": [
     {
-      "at": "2026-11-22T22:17:30.511977+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T22:17:30.526200+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T22:17:30.539900+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T22:17:30.553933+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T22:17:30.567753+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-22T22:17:30.581821+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
       "at": "2026-11-22T23:14:52.219916+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
@@ -151,14 +121,44 @@
       "at": "2026-11-23T02:11:39.521828+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-23T03:07:13.336086+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-23T03:07:13.346937+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-23T03:07:13.357924+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-23T03:07:13.368511+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-23T03:07:13.379219+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-23T03:07:13.390118+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
     }
   ],
   "cooldown": {
     "gemini-3.5-flash": 1795403412.658852,
     "gemini-3-flash-preview": 1795403433.2402515,
-    "gemini-3.8-flash": 1795400154.3885164,
-    "gemini-3.7-flash": 1795400199.4512484
+    "gemini-3.8-flash": 1795403533.2229908,
+    "gemini-3.7-flash": 1795406833.3354456
   },
-  "last_wake": "2026-11-23T05:10:12.441797+03:00",
+  "last_wake": "2026-11-23T06:07:11.085323+03:00",
   "remaining_due": 6
 }
