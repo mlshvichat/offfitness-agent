@@ -3,76 +3,6 @@
   "ready": [],
   "failures": [
     {
-      "at": "2026-11-24T18:51:42.660965+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T18:51:42.746963+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T18:51:42.834212+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T18:51:42.921184+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:48.480954+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:48.547746+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:48.613815+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:48.679767+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:48.746094+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:48.812085+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:48.878013+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:48.943625+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:49.009870+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
-      "at": "2026-11-24T19:58:49.155926+00:00",
-      "stage": "prepare",
-      "error": "RuntimeError"
-    },
-    {
       "at": "2026-11-24T19:58:49.222057+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
@@ -151,14 +81,84 @@
       "at": "2026-11-24T20:50:02.862923+00:00",
       "stage": "prepare",
       "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:20.789569+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:46.675250+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:46.734791+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:46.793491+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:46.852921+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:46.913645+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:46.972495+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:47.031605+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:47.090910+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:47.149859+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:47.209034+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:47.267819+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:47.326785+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
+    },
+    {
+      "at": "2026-11-24T21:53:47.386179+00:00",
+      "stage": "prepare",
+      "error": "RuntimeError"
     }
   ],
   "cooldown": {
-    "gemini-3.5-flash": 1795553868.7626402,
-    "gemini-3-flash-preview": 1795557000.509174,
-    "gemini-3.8-flash": 1795553701.6994689,
-    "gemini-3.7-flash": 1795557001.8067827
+    "gemini-3.5-flash": 1795560800.9726243,
+    "gemini-3-flash-preview": 1795560825.9744403,
+    "gemini-3.8-flash": 1795557526.5345914,
+    "gemini-3.7-flash": 1795560826.6747336
   },
-  "last_wake": "2026-11-24T23:49:48.462156+03:00",
+  "last_wake": "2026-11-25T00:52:12.841512+03:00",
   "remaining_due": 13
 }
